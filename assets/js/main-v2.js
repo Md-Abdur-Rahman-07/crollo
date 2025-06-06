@@ -66,20 +66,23 @@ animateBoxes("left");
 function leaveLoad() {
     TweenLite.to(".loader", 2, {
         backgroundColor: "rgba(0, 0, 0, 0)",
-        delay: 6,
+        delay: 5.5, // was 3.5
         ease: "none"
     });
-    TweenLite.to(".loader", .25, {
+
+    TweenLite.to(".loader", 0.25, {
         autoAlpha: 0,
-        delay: 4.75,
+        delay: 5.75, // was 4.75
     });
+
     TweenLite.from(".video-title h1", 2, {
         letterSpacing: "25vh",
-        delay: 6,
+        delay: 5.5, // was 3.5
         ease: "expo.out",
         clearProps: "all"
     });
 }
+
 
 ////////
 
