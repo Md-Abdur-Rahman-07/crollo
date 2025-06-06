@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+        @font-face {
+            font-family: 'Akzid-bold';
+            src: url('./about-img/font/AkzidGrtskNext-ExtraBold.ttf') format('truetype');
+
+        }
+
+        @font-face {
+            font-family: 'Akzid-light';
+            src: url('./about-img/font/AkzidGrtskNext-Light.ttf') format('truetype');
+
+        }
+
+        @font-face {
+            font-family: 'Akzid-regular';
+            src: url('./about-img/font/AkzidGrtskNext-Regular.ttf') format('truetype');
+
+        }
+
+        @font-face {
+            font-family: 'Akzid-med';
+            src: url('./about-img/font/AkzidGrtskNext-Med.ttf') format('truetype');
+
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .about-me {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* Internet Explorer 10+ */
+        }
+
+        /* For WebKit (Chrome, Safari, Edge) */
+        .about-me::-webkit-scrollbar {
+            display: none;
+        }
+
+        .about-1 {
+            background-image: url('./about-img/hero-bg-about.jpg');
+            color: #fff;
+            background-size: cover;
+            background-position: bottom;
+        }
+
+        .about-1 header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+        }
+
+        p.time {
+
+            font-family: Neue Montreal, sans-serif;
+            font-weight: 400;
+            color: #acacac;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin-bottom: 0;
+
+        }
+
+        .about-1 header nav {
+            position: absolute;
+            z-index: 11;
+            transform: translateX(-50%);
+            left: 50%;
+            top: 25px;
+
+            background: linear-gradient(to bottom right, rgba(88, 88, 88, 0.3), rgba(0, 0, 0, 0.3));
+            border-radius: 20px;
+            padding: 12px;
+
+            /* Glass effect */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-clip: padding-box;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .about-1 header nav a {
+            font-family: "Space Grotesk", sans-serif;
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .btn-talk {
+            font-family: "Space Grotesk", sans-serif;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1.5px solid white;
+            padding: 5px 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .intro {
+            display: flex;
+            flex-direction: row;
+            padding: 40px 40px 150px 40px;
+            /* justify-content: space-between; */
+            align-items: end;
+
+        }
+
+        .intro h1 {
+            font-family: 'Akzid-bold';
+            font-weight: 700;
+            font-size: 140px;
+            line-height: 136px;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin: 0;
+            color: #fff;
+
+        }
+
+        .intro img {
+            width: 20%;
+            height: fit-content;
+        }
+
+        .about-2 {
+            padding: 40px;
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .about-2 .text {
+            width: 30%;
+            color: #fff;
+
+        }
+
+        .about-2 .text h2 {
+            font-family: 'Akzid-med';
+            font-weight: 500;
+            font-size: 30px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin: 0;
+            color: #fff;
+
+        }
+
+        .about-2 .text p {
+            font-family: Neue Montreal, sans-serif;
+            font-weight: 400;
+            font-size: 35px;
+            white-space: nowrap;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            color: #fff;
+
+        }
+
+        .services {
+            background: linear-gradient(to bottom right, rgba(88, 88, 88, 0.3), rgba(0, 0, 0, 0.3));
+
+            border-radius: 20px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 65%;
+            margin: 40px 0 0 40px;
+
+            /* Glass effect properties */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-clip: padding-box;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+
+        .service {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 40px;
+
+        }
+
+        .service img {
+            width: 35px;
+        }
+
+        .service p,
+        .service h3 {
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: 22px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin: 0;
+
+        }
+
+        .service h3 {
+            font-weight: 600;
+            color: #E77000;
+        }
+
+        .service p {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .border-rb {
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .border-b {
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        .border-r {
+            border-right: 1px solid #FFFFFF;
+
+        }
+
+        .about-3 {
+            color: #fff;
+            background: #000;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 0;
+            font-family: Akzidenz-Grotesk Next;
+            font-weight: 700;
+            font-size: 270px;
+
+            line-height: 100%;
+            letter-spacing: 40%;
+            text-transform: uppercase;
+
+        }
+
+        .about-3 span {
+            font-family: 'Akzid-bold';
+            margin: 0;
+            position: relative;
+            bottom: -50px;
+            color: #fff;
+        }
+
+        .about-3 span.left-10 {
+            left: -15px;
+        }
+
+        .about-3 span.right-10 {
+            right: -10px;
+        }
+
+        .about-4 {
+            display: flex;
+            flex-direction: row;
+            padding: 10px 0 50px 0;
+        }
+
+        .about-4 h3 {
+            font-family: Neue Montreal, sans-serif;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            text-align: center;
+            color: #000;
+            margin: 3rem 0;
+        }
+
+        .edu-card {
+            background: rgba(236, 235, 235, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .edu-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .edu-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-icon {
+
+            height: 35px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .edu-divider {
+            border-top: 1px solid #ddd;
+            margin: 16px 0;
+        }
+
+        .edu-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 24px;
+        }
+
+        .edu-sub {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 16px;
+            color: #0F0F0F;
+        }
+
+        .edu-subtitle {
+            color: #0F0F0F;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 18px;
+        }
+
+        .edu,
+        .language {
+            width: 50%;
+        }
+
+        .lang-4 {
+            display: flex;
+            flex-direction: row;
+            width: 80%;
+            margin: 100px auto 0 auto;
+            gap: 20px;
+        }
+
+        .col-1 {
+            width: 26%;
+            display: flex;
+        }
+
+        .col-2 {
+            width: 37%;
+        }
+
+        .col-3 {
+            width: 37%;
+        }
+
+        .js {
+            display: block;
+            width: 100%;
+            margin: auto;
+        }
+
+        .py {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .cpp {
+            display: block;
+            width: 60%;
+
+        }
+
+        .java {
+            display: block;
+            width: 100%;
+            position: relative;
+            top: 50%;
+            left: -70px;
+        }
+
+        .about-5 {
+            display: flex;
+            flex-direction: row;
+            color: #fff;
+
+        }
+
+        .foot {
+            background: #000;
+            border: 1px solid rgb(85, 84, 84);
+            width: 25%;
+            padding: 40px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .num {
+            font-family: Neue Montreal, sans-serif;
+            font-weight: 400;
+            font-size: 44px;
+
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin: 0;
+
+        }
+
+        .num-desc {
+            font-family: Neue Montreal, sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 30px;
+            letter-spacing: 0%;
+            text-transform: uppercase;
+            margin: 0;
+
+        }
+
+        .p-relative {
+            position: relative;
+        }
+
+        .v-line-wh {
+            width: 1.5px;
+            background: white;
+            height: 100%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9;
+        }
+
+        .v-line-bl {
+            width: 1.5px;
+            background: rgb(0, 0, 0);
+            height: 100%;
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+            z-index: 9;
+        }
+
+        .nav-btn {
+            width: 45px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .about-4m {
+            display: none;
+        }
+
+        /* Smallest screen first */
+
+
+
+        @media (max-width: 992px) {
+
+            .v-line-wh,
+            .v-line-bl {
+                display: none;
+            }
+
+            .about-1 header nav {
+                display: none;
+                position: fixed;
+                top: 85px;
+                width: 80%;
+                background: linear-gradient(to bottom right, rgb(88, 88, 88), black);
+                border-radius: 28px;
+                padding: 12px;
+                z-index: 999;
+                text-align: center;
+            }
+
+            .about-1 header nav.show {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                display: block;
+            }
+
+            .btn-talk {
+                display: none;
+            }
+
+            .intro {
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 40px 100px 40px;
+            }
+
+            .intro h1 {
+                font-size: 5rem;
+                line-height: 5rem;
+            }
+
+            .intro img {
+                width: 85%;
+                height: fit-content;
+                margin: 50px auto 0 auto;
+            }
+
+            .about-2 {
+                flex-direction: column;
+                padding: 25px;
+            }
+
+            .about-2 .text {
+                width: 100%;
+            }
+
+            .services {
+                background: none;
+                padding: 0;
+                grid-template-columns: 1fr;
+                width: 100%;
+                margin: 0;
+            }
+
+            div.service {
+                border-bottom: 1.5px solid #fff;
+                align-items: center;
+                text-align: center;
+                padding: 20px 0;
+            }
+
+            .border-rb,
+            .border-b,
+            .border-r {
+                border: none;
+            }
+
+            .about-3 {
+                font-size: 150px;
+            }
+
+            .about-3 span {
+                bottom: -30px;
+            }
+
+            .about-4 {
+                display: none;
+            }
+
+            .edu-card {
+                padding: 40px;
+                max-width: 500px;
+                margin: 2rem auto;
+
+            }
+
+            .about-4m {
+                display: flex;
+                flex-direction: column;
+                padding: 40px 30px;
+            }
+
+
+
+            .about-4m .text h4 {
+                font-family: "Space Grotesk", sans-serif;
+                font-weight: 700;
+                font-size: 30px;
+                line-height: 100%;
+                letter-spacing: 0%;
+                text-transform: uppercase;
+                margin: 30px 0 20px 0;
+            }
+
+            .about-4m .text p {
+                font-family: "Space Grotesk", sans-serif;
+                font-weight: 700;
+                font-size: 32px;
+                line-height: 100%;
+                letter-spacing: 0%;
+                text-transform: uppercase;
+                margin: 0;
+            }
+
+            .about-5 {
+                flex-direction: column;
+            }
+
+            .foot {
+                width: -webkit-fill-available;
+                border: none;
+                border-bottom: 1.5px solid #fff;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .intro h1 {
+                font-size: 3.5rem;
+                line-height: 3.5rem;
+            }
+
+            .about-2 .text p {
+                font-size: 25px;
+            }
+
+            .about-3 {
+                font-size: 100px;
+            }
+
+            .about-3 span {
+                bottom: -20px;
+            }
+
+            .about-3 span.left-10 {
+                left: -8px;
+            }
+
+            .about-3 span.right-10 {
+                right: -7px;
+            }
+
+            .edu-card {
+                padding: 30px;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+            .about-3 {
+                font-size: 85px;
+            }
+
+            .about-3 span {
+                bottom: -17px;
+            }
+        }
+
+        /* Larger screens now */
+        @media (min-width: 1400px) {
+            .intro h1 {
+                font-size: 160px;
+                line-height: 140px;
+            }
+
+            .about-2 .text h2 {
+                font-size: 35px;
+            }
+
+            .about-2 .text p {
+                font-size: 35px;
+            }
+
+            .services {
+                padding: 40px;
+            }
+
+            .service {
+                gap: 16px;
+                padding: 40px;
+            }
+
+            .service p,
+            .service h3 {
+                font-size: 25px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .intro h1 {
+                font-size: 193px;
+                line-height: 160px;
+            }
+
+            .about-2 .text h2 {
+                font-size: 45px;
+            }
+
+            .about-2 .text p {
+                font-size: 45px;
+            }
+
+            .services {
+                padding: 50px;
+            }
+
+            .service {
+                gap: 20px;
+                padding: 45px;
+            }
+
+            .service p,
+            .service h3 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="about-me">
+        <div class="about-1 p-relative">
+            <div class="v-line-wh"></div>
+            <header>
+                <p class="time">DENMARK, COpenhagen [Insert time]</p>
+                <nav>
+                    <a href="#">START</a>
+                    <a href="#">ABOUT</a>
+                    <a href="#">PORTFOLIO</a>
+                </nav>
+                <img src="about-img/nav-btn.png" alt="" class="nav-btn">
+                <a class="btn-talk" href="">Let's Talk &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </header>
+            <div class="intro">
+                <h1>I'M A <br> SOFTWARE <br> ENGINEER</h1>
+                <img src="about-img/svg-face.svg" alt="">
+            </div>
+        </div>
+        <div class="outer-black p-relative">
+            <div class="v-line-wh"></div>
+            <div class="about-2 ">
+
+                <div class="text">
+                    <h2>MY SERVICES</h2>
+                    <p>solutions that <br> drive real-world <br> impact.</p>
+                </div>
+                <div class="services">
+                    <div class="service border-rb">
+                        <img src="about-img/Frame1.png" alt="">
+                        <h3>Software Development</h3>
+                        <p>Building scalable, high-performance applications.</p>
+                    </div>
+                    <div class="service border-b">
+                        <img src="about-img/Frame2.png" alt="">
+                        <h3>Security Focused</h3>
+                        <p>Engineering systems cybersecurity at the core.</p>
+                    </div>
+                    <div class="service border-r">
+                        <img src="about-img/Frame3.png" alt="">
+                        <h3>Problem Solving</h3>
+                        <p>From architecture to execution — solving complex challenges.</p>
+                    </div>
+                    <div class="service">
+                        <img src="about-img/Frame4.png" alt="">
+                        <h3>Continuous Learning</h3>
+                        <p>Staying ahead in a rapidly evolving tech world.</p>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="about-3 p-relative">
+            <div class="v-line-wh"></div>
+            <span class="left-10">M</span>
+            <span>A</span>
+            <span>L</span>
+            <span>I</span>
+            <span class="right-10">K</span>
+        </div>
+        <div class="outer-white p-relative">
+            <div class="v-line-bl"></div>
+            <div class="about-4 ">
+
+
+                <div class="edu">
+                    <h3>EDUCATIONAL BACKGROUND</h3>
+
+                    <div class="edu-card">
+                        <div class="edu-section">
+                            <img src="about-img/imp.png" alt="" class="edu-icon">
+                            <div>
+                                <div class="edu-title">IMPERIAL COLLEGE LONDON (ICL)</div>
+                                <div class="edu-sub">M.SC MACHINE LEARNING AND DATA SCIENCE</div>
+                            </div>
+                        </div>
+
+                        <div class="edu-divider"></div>
+
+                        <div class="edu-section">
+                            <img src="about-img/dtu.png" alt="" class="edu-icon">
+                            <div>
+                                <div class="edu-title">TECHNICAL UNIVERSITY OF DENMARK</div>
+                                <div class="edu-sub">B.SC (HONS) COMPUTER SCIENCE</div>
+                            </div>
+                        </div>
+
+                        <div class="edu-divider"></div>
+
+                        <div class="edu-section">
+                            <img src="about-img/two.png" alt="" class="edu-icon">
+                            <div>
+                                <div class="edu-subtitle">CERTIFIED SECURE SOFTWARE</div>
+                                <div class="edu-subtitle">LIFECYCLE PROFESSIONAL (CSSLP)</div>
+                            </div>
+                        </div>
+
+                        <div class="edu-divider"></div>
+
+                        <div class="edu-section">
+                            <img src="about-img/c-i.png" alt="" class="edu-icon">
+                            <div>
+                                <div class="edu-subtitle">CERTIFICATIONS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="language">
+                    <h3>LANGUAGES</h3>
+                    <div class="lang-4">
+                        <div class="col-1">
+                            <img src="about-img/jx.png" alt="" class="js">
+                        </div>
+                        <div class="col-2">
+                            <img src="about-img/py.png" alt="" class="py">
+                            <img src="about-img/cpp.png" alt="" class="cpp">
+                        </div>
+                        <div class="col-3">
+                            <img src="about-img/java.png" alt="" class="java">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-4m">
+
+            <div class="edu-card">
+                <div class="edu-section">
+                    <img src="about-img/imp.png" alt="" class="edu-icon">
+                    <div>
+                        <div class="edu-title">IMPERIAL COLLEGE LONDON (ICL)</div>
+                        <div class="edu-sub">M.SC MACHINE LEARNING AND DATA SCIENCE</div>
+                    </div>
+                </div>
+
+                <div class="edu-divider"></div>
+
+                <div class="edu-section">
+                    <img src="about-img/dtu.png" alt="" class="edu-icon">
+                    <div>
+                        <div class="edu-title">TECHNICAL UNIVERSITY OF DENMARK</div>
+                        <div class="edu-sub">B.SC (HONS) COMPUTER SCIENCE</div>
+                    </div>
+                </div>
+
+                <div class="edu-divider"></div>
+
+                <div class="edu-section">
+                    <img src="about-img/two.png" alt="" class="edu-icon">
+                    <div>
+                        <div class="edu-subtitle">CERTIFIED SECURE SOFTWARE</div>
+                        <div class="edu-subtitle">LIFECYCLE PROFESSIONAL (CSSLP)</div>
+                    </div>
+                </div>
+
+                <div class="edu-divider"></div>
+
+                <div class="edu-section">
+                    <img src="about-img/c-i.png" alt="" class="edu-icon">
+                    <div>
+                        <div class="edu-subtitle">CERTIFICATIONS</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text">
+                <h4>MY SERVICES</h4>
+                <p>
+                    “Great software doesn’t just solve problems — it creates possibilities"
+                </p>
+            </div>
+        </div>
+        <div class="about-5">
+            <div class="foot">
+                <div class="text">
+                    <p class="num">80+</p>
+                    <p class="num-desc">HAPPY CLIENTS</p>
+                </div>
+                <img src="about-img/Frame5.png" alt="">
+            </div>
+            <div class="foot">
+                <div class="text">
+                    <p class="num">100+</p>
+                    <p class="num-desc">PROJECTS DONE</p>
+                </div>
+                <img src="about-img/Frame6.png" alt="">
+            </div>
+            <div class="foot">
+                <div class="text">
+                    <p class="num">4+</p>
+                    <p class="num-desc">YEARS EXPERIENCE</p>
+                </div>
+                <img src="about-img/Frame7.png" alt="">
+            </div>
+            <div class="foot">
+                <div class="text">
+                    <p class="num">90+</p>
+                    <p class="num-desc">WEBSITES DEVELOPED</p>
+                </div>
+                <img src="about-img/Frame8.png" alt="">
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        const navBtn = document.querySelector('.nav-btn');
+        const nav = document.querySelector('header nav');
+
+        navBtn.addEventListener('click', () => {
+            nav.classList.toggle('show');
+        });
+    </script>
+</body>
+
+</html>

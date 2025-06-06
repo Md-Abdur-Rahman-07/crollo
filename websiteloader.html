@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PGP Message Box with Decode Effect</title>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Share+Tech+Mono);
+
+body {
+  background: rgb(0, 0, 0);
+  padding: 2em;
+  font-family: 'Share Tech Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.pgp-container {
+  background: rgb(0, 0, 0);
+  width: 800px;
+  max-width: 90vw;
+  box-shadow: none;
+  border: none;
+}
+
+.pgp-container .header,
+.pgp-container .footer {
+  font-family: 'Share Tech Mono', monospace;
+  text-align: center;
+  margin: 0.5em 0;
+  white-space: pre;
+  font-size: 10px;
+  font-weight: normal;
+  color: black;
+}
+
+.pgp-content {
+  font-family: 'Share Tech Mono', monospace;
+  line-height: 1.5;
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  word-spacing: 0.1em;
+  text-align: left;
+  word-break: break-all;
+  white-space: pre-wrap;
+  margin: 0;
+  color: black;
+}
+
+/* Decode text effect styles */
+.decode-text {
+  width: 100%;
+  font-size: 17px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.decode-text.hidden {
+  display: none; /* Immediately hide the element */
+}
+
+.space {
+  display: inline-block;
+  width: 10px;
+}
+
+.text-animation {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+  text-transform: uppercase;
+}
+
+.text-animation:before {
+  content: "";
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #ffffff;
+  width: 0;
+  height: 1.2em;
+  transform: translate(-50%, -55%);
+}
+
+.text-animation.state-1:before {
+  width: 1px;
+  transition: width 0.05s;
+}
+
+.text-animation.state-2:before {
+  width: 0.9em;
+  transition: width 0.05s;
+}
+
+.text-animation.state-3 {
+  color: rgb(255, 255, 255);
+  transition: color 0.05s;
+}
+
+.text-animation.state-3:before {
+  width: 0;
+  transition: width 0.05s;
+}
+
+#refresh {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+/* Character cell styling for pgp-box */
+.pgp-character {
+  display: inline-block;
+  position: relative;
+  color: transparent;
+}
+
+.pgp-character:before {
+  content: "";
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #ffffff;
+  width: 0;
+  height: 1.2em;
+  transform: translate(-50%, -55%);
+}
+
+.pgp-character.state-1:before {
+  width: 1px;
+  transition: width 0.05s;
+}
+
+.pgp-character.state-2:before {
+  width: 0.9em;
+  transition: width 0.05s;
+}
+
+.pgp-character.state-3 {
+  color: rgb(255, 255, 255);
+  transition: color 0.05s;
+}
+
+.pgp-character.state-3:before {
+  width: 0;
+  transition: width 0.05s;
+}
+
+/* Add the collapse bars */
+.collapse-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.collapse-bar-top, .collapse-bar-bottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: #0e182d;
+  height: 8px; /* Increased thickness */
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.6s ease-in-out;
+}
+
+.collapse-bar-top {
+  top: 10px;
+  transform: translateY(-20px);
+}
+
+.collapse-bar-bottom {
+  bottom: 10px;
+  transform: translateY(20px);
+}
+
+/* Create "swept" effect where text is removed as bars pass */
+.collapse-active .pgp-character {
+  transition: opacity 0.05s linear;
+}
+
+.collapse-active .collapse-bar-top {
+  opacity: 1;
+  transform: translateY(calc(50vh - 10px));
+}
+
+.collapse-active .collapse-bar-bottom {
+  opacity: 1;
+  transform: translateY(calc(-50vh + 10px));
+}
+
+.collapse-complete .pgp-content,
+.collapse-complete .header,
+.collapse-complete .footer {
+  display: none;
+}
+
+.collapse-complete .collapse-bar-top,
+.collapse-complete .collapse-bar-bottom {
+  opacity: 0;
+}
+
+.decode-text{
+  color: rgb(255, 255, 255);
+}
+
+</style>
+</head>
+<body>
+<div class="decode-text">
+  <div class="text-animation">E</div>
+  <div class="text-animation">n</div>
+  <div class="text-animation">c</div>
+  <div class="text-animation">r</div>
+  <div class="text-animation">y</div>
+  <div class="text-animation">p</div>
+  <div class="text-animation">t</div>
+  <div class="text-animation">e</div>
+  <div class="text-animation">d</div>
+  <div class="space"></div>
+  <div class="text-animation">P</div>
+  <div class="text-animation">G</div>
+  <div class="text-animation">P</div>
+  <div class="space"></div>
+  <div class="text-animation">M</div>
+  <div class="text-animation">e</div>
+  <div class="text-animation">s</div>
+  <div class="text-animation">s</div>
+  <div class="text-animation">a</div>
+  <div class="text-animation">g</div>
+  <div class="text-animation">e</div>
+</div>
+
+<a id="refresh" onclick="decodeText();">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+</a>
+
+<div class="pgp-container collapse-container">
+  <div class="collapse-bar-top"></div>
+  <div class="collapse-bar-bottom"></div>
+  <div class="header" id="pgp-header">-----BEGIN PGP MESSAGE-----</div>
+  <div class="pgp-content" id="pgp-content"></div>
+  <div class="footer" id="pgp-footer">-----END PGP MESSAGE-----</div>
+</div>
+
+<script>
+const pgpMessage = `h Q I M A 5 C M W s T w O 8 I v A Q / / c F + F 9 N L-
+G L A K 5 A U + I E A H 6 D e A h B S l q f A l Y w K w Y + A s F l K r h
+2 H L S 9 K k + 2 Y P c h M 8 1 n O X z A B H 6 p t G g Z x E a b R M X-
+8 Z f D b 6 b n p E E y b y X y + n s 5 j 2 J P 4 U r Q   g C Q s i L a C K 2 T g E d-
+V O i Z C J u p M 0 + z I Y A c V 9 E c E N s V m C t R p h W S V f x F g Q-
+v S Z z 6 P P y A V 3 O       1 A Z F e 9 8 p m h p c 2 r J m + u T t + H h F l u-
+O m r 6 + I R q V v U 0 K K 2 / S o D 8 j 0 z p 6 E j + o 2 H y Z 5 b L h Z  I p F y + R-
+f L q S M g X H 2 t F 7 U / U T n F / k Y k I x l 5 U 2 A Z h U 6 w v X U D q z-
+k V p 9 K Y a p + 2 N O B s F 2 a Z   g Q A g B b Y J P K 8 x C E u U C G 2 g T I B-
+K 7 Q a H 6 N H 8 m B j a 7 y q 5 G i b d V + S G Z q 0 B j C d I q l H + B v T Z
++   P   E   6   d   G   E   e   I   z   +   n   E   D   z-
+p z 9 Y d t 2 Z y + a 1 x b 1 M k V E 2 d W q J 7 C Q 2 i j 8 y i 9 s E B S N-
+j v 4 B k A 5 1 R U  E 9 b x Y z 0 q + r J m p E T S G + u Y p e U d S r S u Q g Y / d Z-
+v q C F L U A W k x d q B g y X w d 8 j W + U M K D u K 3 A  9 L 2 Z H Q b m f s L k-
+D j 9 g b 7 L p h D G A A Y 2 1 N N 7 K P E 8 C G 5 Z k m 7 P Y n l U u T R W x i L-
+b R J F F L 2 E Q 0  N Z 4 z z g U 1 W J 1 h L 1 A b U p o 4 K 2 a t W v D M N n p c l N-
+q O U k L 5 y i q V K X O l E j I n Q k m 5 q N W 0 h V L j    x j V R f 2 a 4 H 6 B f-
+P G 5 x W L 1 o S B 6 z Q Y g 9 a X 1 L n 4 Z C V Y 8 e H o G r Z X-
+e q M + 9 k 5 B z U p u / 0 5 q T S  X g E J A h D O 3 5 Q k M 7 P E p 0 N n V 1 x / N-
+W 1 P B j 7 g 5 e B 4 e o m 9 N O k A q 6 U H l J T o Y N f f h G y s R c d Z
+R X h 6 H l P G 6 h g =                               = m I X r`;
+
+// Create spans for each character
+window.onload = function() {
+  const contentDiv = document.getElementById('pgp-content');
+  const headerDiv = document.getElementById('pgp-header');
+  const footerDiv = document.getElementById('pgp-footer');
+  
+  // Process PGP content
+  let processedContent = '';
+  
+  for (let i = 0; i < pgpMessage.length; i++) {
+    const char = pgpMessage[i];
+    if (char === '\n') {
+      processedContent += '\n';
+    } else {
+      processedContent += `<span class="pgp-character">${char}</span>`;
+    }
+  }
+  
+  contentDiv.innerHTML = processedContent;
+
+  // Start the decode animation with a slight delay
+  setTimeout(() => {
+    decodeText();
+    decodeHeaderFooter();
+  }, 100);
+};
+
+/* ------------------------------------------------------------------------ *  
+4 states per letter: Transparent | Line | Block | Visible.
+These states are shuffled for a unique "decode" effect each time.
+* ------------------------------------------------------------------------ */
+function decodeText() {
+  var text = document.getElementsByClassName('decode-text')[0];
+  // assign the placeholder array its places
+  var state = [];
+  for (var i = 0, j = text.children.length; i < j; i++) {
+    text.children[i].classList.remove('state-1','state-2','state-3');
+    state[i] = i;
+  }
+  // shuffle the array to get new sequences each time
+  var shuffled = shuffle(state);
+
+  for (var i = 0, j = shuffled.length; i < j; i++) {
+    var child = text.children[shuffled[i]];
+    var classes = child.classList;
+    // fire the first one at random times
+    var state1Time = Math.round(Math.random() * (2000 - 300)) + 50;
+    if (classes.contains('text-animation')) { 
+      setTimeout(firstStages.bind(null, child), state1Time);
+    }
+  }
+  
+  // Also decode PGP message
+  decodePgpMessage();
+}
+
+function decodeHeaderFooter() {
+  const headerDiv = document.getElementById('pgp-header');
+  const footerDiv = document.getElementById('pgp-footer');
+  
+  const headerText = headerDiv.textContent;
+  const footerText = footerDiv.textContent;
+  
+  let headerHTML = '';
+  let footerHTML = '';
+  
+  // Process header
+  for (let i = 0; i < headerText.length; i++) {
+    const char = headerText[i];
+    headerHTML += `<span class="pgp-character">${char}</span>`;
+  }
+  
+  // Process footer
+  for (let i = 0; i < footerText.length; i++) {
+    const char = footerText[i];
+    footerHTML += `<span class="pgp-character">${char}</span>`;
+  }
+  
+  headerDiv.innerHTML = headerHTML;
+  footerDiv.innerHTML = footerHTML;
+  
+  // Apply animation to header characters - faster
+  const headerChars = headerDiv.getElementsByClassName('pgp-character');
+  randomizeAnimation(headerChars, 0, 500);
+  
+  // Apply animation to footer characters at the end
+  const footerChars = footerDiv.getElementsByClassName('pgp-character');
+  setTimeout(() => {
+    randomizeAnimation(footerChars, 0, 500);
+    
+    // Start the collapse animation after the footer finishes
+    setTimeout(() => {
+      const container = document.querySelector('.pgp-container');
+      container.classList.add('collapse-active');
+      
+      // Make characters disappear as bars pass over them
+      const allChars = document.querySelectorAll('.pgp-character');
+      const charPositions = [];
+      
+      // Get all character positions
+      allChars.forEach((char, index) => {
+        const rect = char.getBoundingClientRect();
+        charPositions.push({
+          char: char,
+          top: rect.top,
+          bottom: rect.bottom,
+          height: rect.height,
+          center: rect.top + (rect.height / 2)
+        });
+      });
+      
+      // Calculate the speed and timing of the bars
+      const containerRect = container.getBoundingClientRect();
+      const startTime = Date.now();
+      const duration = 600; // ms for bars to meet
+      
+      // Animate fading of characters as bars pass over them
+      const fadeChars = setInterval(() => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(1, elapsedTime / duration);
+        
+        // Calculate current position of top and bottom bars
+        const topBarPos = containerRect.top + 10 + (progress * (containerRect.height / 2 - 10));
+        const bottomBarPos = containerRect.bottom - 10 - (progress * (containerRect.height / 2 - 10));
+        
+        // Fade out characters as bars pass them
+        charPositions.forEach(item => {
+          if (item.center <= topBarPos || item.center >= bottomBarPos) {
+            item.char.style.opacity = '0';
+          }
+        });
+        
+        // Stop when animation is complete
+        if (progress >= 1) {
+          clearInterval(fadeChars);
+        }
+      }, 16);
+      
+      // After bars meet in the middle, collapse them back and hide content
+      setTimeout(() => {
+        container.classList.add('collapse-complete');
+        
+        // ADDED: Hide the title text immediately after the collapse animation
+        document.querySelector('.decode-text').classList.add('hidden');
+        
+        // Alternative approach: Remove from DOM entirely
+        // document.querySelector('.decode-text').remove();
+      }, 700);
+    }, 800);
+  }, 2000); // Start footer animation after 2 seconds
+}
+
+function randomizeAnimation(characters, startIndex, duration) {
+  if (startIndex >= characters.length) return;
+  
+  // Create array of indices
+  let indices = [];
+  for (let i = 0; i < characters.length; i++) {
+    indices.push(i);
+  }
+  
+  // Shuffle the indices
+  indices = shuffle(indices);
+  
+  // Animate with timing spread across the total duration
+  for (let i = 0; i < indices.length; i++) {
+    const char = characters[indices[i]];
+    
+    // Distribute timings across the duration with some randomness
+    const delay = (i / indices.length) * duration;
+    
+    setTimeout(() => {
+      char.classList.add('state-1');
+      
+      setTimeout(() => {
+        char.classList.add('state-2');
+        
+        setTimeout(() => {
+          char.classList.add('state-3');
+        }, 40);
+      }, 40);
+    }, delay);
+  }
+}
+
+function decodePgpMessage() {
+  const pgpChars = document.getElementById('pgp-content').getElementsByClassName('pgp-character');
+  // Start with a shorter delay after title animation
+  setTimeout(() => {
+    cascadeAnimation(pgpChars);
+  }, 300);
+}
+
+function cascadeAnimation(characters) {
+  // We'll create a cascade effect with some randomization
+  // but overall flowing from top to bottom
+  const totalDuration = 2200; // Total animation should take about 2.2 seconds
+  
+  // Calculate character positions
+  const positions = [];
+  for (let i = 0; i < characters.length; i++) {
+    const rect = characters[i].getBoundingClientRect();
+    positions.push({
+      index: i,
+      x: rect.left,
+      y: rect.top,
+      char: characters[i]
+    });
+  }
+  
+  // Sort primarily by y position (top to bottom)
+  // but with some randomization within each general area
+  positions.sort((a, b) => {
+    // Create "zones" of about 30px height
+    const aZone = Math.floor(a.y / 30);
+    const bZone = Math.floor(b.y / 30);
+    
+    if (aZone === bZone) {
+      // Within same zone, add some randomization
+      return (Math.random() * 2 - 1);
+    }
+    
+    // Between zones, strictly top to bottom
+    return aZone - bZone;
+  });
+  
+  // Animate with timing spread across the total duration
+  for (let i = 0; i < positions.length; i++) {
+    const char = positions[i].char;
+    // Distribute timings across the duration with some randomness
+    const baseDelay = (i / positions.length) * totalDuration;
+    const randomOffset = Math.random() * 100 - 50; // +/- 50ms randomness
+    const delay = Math.max(0, baseDelay + randomOffset);
+    
+    setTimeout(() => {
+      char.classList.add('state-1');
+      
+      setTimeout(() => {
+        char.classList.add('state-2');
+        
+        setTimeout(() => {
+          char.classList.add('state-3');
+        }, 40); // Faster transition to final state
+      }, 40); // Faster transition to block state
+    }, delay);
+  }
+}
+
+// send the node for later .state changes
+function firstStages(child) {
+  if (child.classList.contains('state-2')) {   
+    child.classList.add('state-3');
+  } else if (child.classList.contains('state-1')) {
+    child.classList.add('state-2');
+    setTimeout(thirdStages.bind(null, child), 100);
+  } else if (!child.classList.contains('state-1')) {
+    child.classList.add('state-1');
+    setTimeout(secondStages.bind(null, child), 100);
+  }    
+}
+
+function secondStages(child) {
+  if (child.classList.contains('state-1')) {
+    child.classList.add('state-2');
+    setTimeout(thirdStages.bind(null, child), 100);
+  } else if (!child.classList.contains('state-1')) {
+    child.classList.add('state-1');
+  }
+}
+
+function thirdStages(child) {
+  if (child.classList.contains('state-2')) {
+    child.classList.add('state-3');
+  }
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+// No automatic looping - only when refresh button is clicked
+document.getElementById('refresh').addEventListener('click', function() {
+  // Clear all animation states from PGP characters
+  const pgpChars = document.querySelectorAll('.pgp-character');
+  pgpChars.forEach(char => {
+    char.classList.remove('state-1', 'state-2', 'state-3');
+  });
+  
+  // Also reset and animate header/footer
+  const headerChars = document.getElementById('pgp-header').getElementsByClassName('pgp-character');
+  const footerChars = document.getElementById('pgp-footer').getElementsByClassName('pgp-character');
+  
+  for (let i = 0; i < headerChars.length; i++) {
+    headerChars[i].classList.remove('state-1', 'state-2', 'state-3');
+  }
+  
+  for (let i = 0; i < footerChars.length; i++) {
+    footerChars[i].classList.remove('state-1', 'state-2', 'state-3');
+  }
+  
+  // Remove collapse effect
+  const container = document.querySelector('.pgp-container');
+  container.classList.remove('collapse-active');
+  container.classList.remove('collapse-complete');
+  
+  // Make sure content is visible again
+  document.getElementById('pgp-content').style.display = '';
+  document.getElementById('pgp-header').style.display = '';
+  document.getElementById('pgp-footer').style.display = '';
+  
+  // Show title text again
+  document.querySelector('.decode-text').classList.remove('hidden');
+  
+  // Restart animation
+  setTimeout(() => {
+    decodeText();
+    decodeHeaderFooter();
+  }, 100);
+});
+</script>
+</body>
+</html>
